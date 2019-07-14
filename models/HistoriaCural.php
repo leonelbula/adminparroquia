@@ -70,7 +70,7 @@ class HistoriaCural extends ModeloBase {
 	}
 	//mostrar historial curral  me diente al id del sacerdote
 	public function MostrarHistoriaParroquia() {
-		$sql = "SELECT * FROM historial_cural WHERE  parroquia = '{$this->getParroquia()}' ORDER BY hasta DESC";
+		$sql = "SELECT * FROM historial_cural WHERE  parroquia = '{$this->getParroquia()}'";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}

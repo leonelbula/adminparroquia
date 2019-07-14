@@ -843,7 +843,7 @@ class ParroquiaController{
 			$historia = new HistoriaCural();
 			$historia->setParroquia($nombre);
 			$listHist = $historia->MostrarHistoriaParroquia();			
-			
+			var_dump($listHist);
 			return $listHist;
 		}
 	}	

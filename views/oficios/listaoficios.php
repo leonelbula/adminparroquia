@@ -32,7 +32,7 @@
 											<li>
 												<a href="<?=URL_BASE?>sacerdote/sacerdote&id=38">P. Orlando Rafael Lopez Vergara
 													<br>
-													<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+													<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/ORLANDORAFAELLOPEZ VERGARA.jpg" />
 													<br>
 													Vicario General
 												</a>
@@ -40,7 +40,7 @@
 													<li>
 														<a href="<?=URL_BASE?>sacerdote/sacerdote&id=101">P. Tomas Seba Rodrigues
 															<br>
-															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/TOMASJOSESEBARODRIGUEZ.jpg" />
 															<br>
 															Canciller
 														</a>
@@ -48,7 +48,7 @@
 															<li>
 														<a href="<?=URL_BASE?>sacerdote/sacerdote&id=40">P. CarlosArturo Machado Argumedo
 															<br>
-															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/CARLOS ARTURO MACHADO ARGUMEDO.jpg" />
 															<br>
 															Economo
 														</a>
@@ -56,7 +56,7 @@
 													<li>
 														<a href="<?=URL_BASE?>sacerdote/sacerdote&id=5">P. Juan Rafael Barríos Baldovino
 															<br>
-															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/JUAN RAFAEL BARRIOS BALDOVINO.jpg" />
 															<br>
 															Vicario Judicial
 														</a>
@@ -64,7 +64,7 @@
 													<li>
 														<a href="<?=URL_BASE?>sacerdote/sacerdote&id=86">P. Alfredo Ramos Genes
 															<br>
-															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/ALFREDO ENRIQUE RAMOS GENES.jpg" />
 															<br>
 															Vicario de Pastoral
 														</a>
@@ -72,7 +72,7 @@
 													<li>
 														<a href="<?=URL_BASE?>sacerdote/sacerdote&id=75">P. Juan Jose Pacheco Navarro
 															<br>
-															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/default.jpg" />
+															<img height="120" class="thumbnail inline no-margin-bottom" src="<?= URL_BASE ?>imagenes/oficios/JUAN JOSÉ PACHECO NAVARRO.jpg" />
 															<br>
 															N. Eclesiastico
 														</a>
