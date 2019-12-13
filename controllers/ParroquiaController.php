@@ -841,9 +841,9 @@ class ParroquiaController{
 				$nombre = $row->nombre;
 			}	
 			$historia = new HistoriaCural();
-			$historia->setParroquia($nombre);
+			$historia->setId_parroquia($id_parroquia);
 			$listHist = $historia->MostrarHistoriaParroquia();			
-			var_dump($listHist);
+			
 			return $listHist;
 		}
 	}	

@@ -6,6 +6,7 @@ class HistoriaCural extends ModeloBase {
 	
 	private $id_hist;
 	private $id_sacerdote;
+	private $id_parroquia;
 	private $parroquia;
 	private $cargo;
 	private $desde;
@@ -17,6 +18,9 @@ class HistoriaCural extends ModeloBase {
 
 	function getId_sacerdote() {
 		return $this->id_sacerdote;
+	}
+	function getId_parroquia() {
+		return $this->id_parroquia;
 	}
 
 	function getParroquia() {
@@ -41,6 +45,9 @@ class HistoriaCural extends ModeloBase {
 
 	function setId_sacerdote($id_sacerdote) {
 		$this->id_sacerdote = $id_sacerdote;
+	}
+	function setId_parroquia($id_parroquia) {
+		$this->id_parroquia = $id_parroquia;
 	}
 
 	function setParroquia($parroquia) {
@@ -70,13 +77,13 @@ class HistoriaCural extends ModeloBase {
 	}
 	//mostrar historial curral  me diente al id del sacerdote
 	public function MostrarHistoriaParroquia() {
-		$sql = "SELECT * FROM historial_cural WHERE  parroquia = '{$this->getParroquia()}'";
+		$sql = "SELECT * FROM historial_cural h ,parroco p  WHERE  id_parroquia = {$this->getId_parroquia()} AND p.id = h.id_sacerdote ORDER BY hasta DESC";
 		$resul = $this->db->query($sql);
 		return $resul;
 	}
 	//guardar la informacion del historial 
 	public function GuardarHistoria() {
-		$sql = "INSERT INTO historial_cural VALUES (NULL,{$this->getId_sacerdote()},'{$this->getParroquia()}','{$this->getCargo()}','{$this->getDesde()}','{$this->getHasta()}')";
+		$sql = "INSERT INTO historial_cural VALUES (NULL,{$this->getId_sacerdote()},{$this->getId_parroquia()},'{$this->getParroquia()}','{$this->getCargo()}','{$this->getDesde()}','{$this->getHasta()}')";
 		$save = $this->db->query($sql);
 		
 		$resul = FALSE;

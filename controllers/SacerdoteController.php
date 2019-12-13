@@ -96,7 +96,15 @@ class SacerdoteController {
 			$listHist = $historia->MostrarHistoriaCural();
 			return $listHist;
 		}
-	}	
+	}
+	public function MostrarHistoriaCuralId($id) {		
+			$id_sacerdote = $id;
+			$historia = new HistoriaCural();
+			$historia->setId_sacerdote($id_sacerdote);
+			$listHist = $historia->MostrarHistoriaCural();
+			return $listHist;
+		
+	}		
 	public function MostrarObservaciones() {
 		if($_GET['id']){
 			$id_sacerdote = $_GET['id'];
@@ -304,9 +312,29 @@ class SacerdoteController {
 					$parr->setId_sacerdote($id_sacerdote);
 				}
 				
-				$parr->setId($parroquiaActual);
-				$parr->ActualizarSacerdote();
+				$actul = new Parroquia();
+				$actul->setId_sacerdote($id_sacerdote);
+				$parroquiaAnterio = $actul->MostrarParroquia();
+				while ($row = $parroquiaAnterio-> fetch_object()) {
+					$id_par_md = $row->id_parroquia;
+					$id_sac = $row->id_sacerdote;
+					$id_vic = $row->id_vicario;
+				}	
 				
+				if($id_sac == $id_sacerdote ){
+										
+					$parr->setId($id_par_md);
+					$parr->setId_sacerdote(113);
+					$parr->ActualizarSacerdote();
+				
+				}else{
+					$parr->setId($id_par_md);
+					$parr->setId_vicario(113);
+					$parr->ActualizarSacerdote();
+				}
+				
+				$parr->setId($parroquiaActual);				
+				$parr->ActualizarSacerdote();				
 				$datos->setCargo($cargo);
 				
 				$reps = $datos->ActualizarDato();
@@ -642,20 +670,22 @@ class SacerdoteController {
 				}
 			}
 		}
-	}
-	public function GuardarEstFilosofia () {
+	}	
+	public function GuardarEstudio () {
 			if($_POST['id_sacerdote']){
 			$id_sacerdote = $_POST['id_sacerdote'];
-			$estFilosofia = isset($_POST['estudioFilosofia'])? $_POST['estudioFilosofia']:FALSE;
+			$estTeologia = isset($_POST['estudioTeologia'])? $_POST['estudioTeologia']:FALSE;
+			$estFilosofia = isset($_POST['estudioFilosofia'])? $_POST['estudioFilosofia']:FALSE;			
 			
-			
-			
-			if($id_sacerdote && $estFilosofia){
+			if($id_sacerdote){
 				$estudio = new Estudios();
 				$estudio->setId_sacerdote($id_sacerdote);
+				
+				$estudio->setEstudio($estTeologia);
 				$estudio->setEstudio($estFilosofia);
 				
 				$resp = $estudio->GuardarEstFilosofia();
+				$resp = $estudio->GuardarEstTeologia();
 				
 				if($resp){
 					echo'<script>
@@ -698,15 +728,37 @@ class SacerdoteController {
 	public function GuardarHistorial() {
 		if($_POST['id_sacerdote']){
 			$id_sacerdote = $_POST['id_sacerdote'];
-			$parroquia = isset($_POST['parroquia']) ? $_POST['parroquia']:FALSE;
+			
+			if(empty($_POST['exte'])){
+				$id_parroquia = isset($_POST['parroquia']) ? $_POST['parroquia']:FALSE;
+			}else{
+				$parroquia = isset($_POST['exte']) ? $_POST['exte']:FALSE;
+			}			
+			
 			$cargo = isset($_POST['cargo']) ? $_POST['cargo']:FALSE;
 			$fecha = isset($_POST['fecha']) ? $_POST['fecha']:FALSE;
-			$desde = null;
 			
+			if(empty($_POST['exte'])){
+				
+				$datosParr = new Parroquia();
+				$datosParr->setId($id_parroquia);
+				$datosInf = $datosParr->MostrarParroquiaId();
+				
+				while ($row = $datosInf->fetch_object()) {
+				$parroquia = $row->nombre;
+				}
+				$desde = null;
+			} else {
+				$desde = null;
+				$id_parroquia = 0;
+			}
+					
+		
 			if($id_sacerdote && $parroquia && $cargo && $fecha){
 				$historia = new HistoriaCural();
 				$historia->setId_sacerdote($id_sacerdote);
 				$historia->setParroquia($parroquia);
+				$historia->setId_parroquia($id_parroquia);
 				$historia->setCargo($cargo);
 				$historia->setDesde($desde);
 				$historia->setHasta($fecha);				
@@ -949,17 +1001,20 @@ class SacerdoteController {
 	}
 	public function Realizartraslado() {
 		if($_POST['id_sacerdote']){
+			
 			 $id_sacerdote = $_POST['id_sacerdote'];
 			 $id_parroquia_trasn = $_POST['parroquiatraslado'];
 			 $cargoRealizar = $_POST['cargoarealizar'];
 			 $sacDefaul = 113;
 			 $parDefaul = 60;
 			 $fecha = date('Y');
+			 
 			 //consultar informacion dela parroquia de traslado
 			 $parTras = new Parroquia();
 			 $parTras->setId($id_parroquia_trasn);
 			 $datos = $parTras->MostrarDetalesParroquia();
 			 //consulta a la informacion de la parroquia a trasladar
+			
 			 while ($row2 = $datos->fetch_object()) {
 				 $nombreP = $row2->nombre;
 				 $id_sac_par_tras = $row2->id_sacerdote;
@@ -982,7 +1037,7 @@ class SacerdoteController {
 					 $parActuN = $row2->nombre;					
 				  }
 
-				$sacer = $rowP->id_sacerdote;
+				 $sacer = $rowP->id_sacerdote;
 				 $vicar = $rowP->id_vicario;
 				 $saAnt = $rowP->id_sac_anterios;
 				 $viAnt = $rowP->id_vic_anterior;				 
@@ -1014,6 +1069,7 @@ class SacerdoteController {
 					
 					$histo2 = new HistoriaCural();
 					$histo2->setId_sacerdote($id_sac_par_tras);
+					$histo2->setId_parroquia($id_parroquia_trasn);
 					$histo2->setParroquia($nombreP);
 					$histo2->setCargo($cargo2);
 					$histo2->setDesde($fechainicio2);
@@ -1107,6 +1163,7 @@ class SacerdoteController {
 					
 					$histo2 = new HistoriaCural();
 					$histo2->setId_sacerdote($id_vic_par_tras);
+					$histo2->setId_parroquia($id_parroquia_trasn);
 					$histo2->setParroquia($nombreP);
 					$histo2->setCargo($cargo2);
 					$histo2->setDesde($fechainicio2);
@@ -1239,6 +1296,60 @@ class SacerdoteController {
 			$cargo->setId_sacerdote($id_sacerdote);
 			$listcar = $cargo->MostarCargosSacerdote();
 			return $listcar;
+		}
+	}
+	public function ListarSacerdotes() {
+		$sacerdote = new Sacerdote();
+		$listaSacerote = $sacerdote->MostrarParroco();
+		return $listaSacerote;
+	}
+	public function EliminarCargo() {
+		if($_GET['id']){
+			$id = $_GET['id'];
+			$idc = $_GET['idc'];
+			
+			$hist = new Sacerdote();
+			$tabla = 'cargo_diocesados';
+			$parm = $idc;
+			$resp = $hist->Eliminar($tabla, $parm);
+			if($resp){
+				echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "Informacion Eliminada correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "sacerdote&id='.$id.'";
+
+							}
+						})
+
+					</script>';
+			}else{
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡Registro no Eliminado !",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "sacerdote&id='.$ids.'";
+
+							}
+						})
+
+			  	</script>';
+			}
+			
+		}else{
+			header('location:'.URL_BASE.'sacerdote/listasacerdote');
 		}
 	}
 }

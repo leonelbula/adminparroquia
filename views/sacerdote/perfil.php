@@ -48,10 +48,12 @@
 						}
 						
 						?>
-												
+						<a href="#modal-form-estudios" role="button" class="blue" data-toggle="modal">
+							<button class="btn btn-info"> Agregar Estudios</button>
+						</a>						
 						<a href="#modal-form-especializacion" role="button" class="blue" data-toggle="modal">
 							<button class="btn btn-info">Agregar Especializacion</button>
-						</a>
+						</a>									
 						
 						<a href="#modal-form-tras" role="button" class="blue" data-toggle="modal">
 							<button class="btn btn-info">Realizar Traslado</button>
@@ -228,7 +230,7 @@
 										</div>
 									</div>
 									<div class="profile-info-row">
-										<div class="profile-info-name"> Estudio Relaizados </div>
+										<div class="profile-info-name"> Estudio Realizados </div>
 
 										<div class="profile-info-value">
 											<div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
@@ -454,7 +456,7 @@
 																				<div class="hidden-sm hidden-xs action-buttons">																				
 
 
-																					<a class="red" href="<?= URL_BASE ?>sacerdote/eliminarhist&id=<?= $rowC->id_cargo_diocesados ?>&ids=<?= $_GET['id'] ?>">
+																					<a class="red" href="<?= URL_BASE ?>sacerdote/eliminarcargo&idc=<?= $rowC->id_cargo_diocesados ?>&id=<?= $_GET['id'] ?>">
 																						<i class="ace-icon fa fa-trash-o bigger-130"></i>
 																					</a>
 																				</div>
@@ -496,8 +498,10 @@
 
 
 											</div>
+											
 											<?php if($_SESSION['identity']->tipo == 'usuario' || $_SESSION['identity']->tipo == 'maestro' ): ?>
-											<div class="col-sm-6">
+											<div class="col-sm-12">
+												<br><br><br>
 												<div class="widget-box">
 													<div class="widget-header">
 														<h4 class="widget-title lighter smaller">
@@ -553,7 +557,7 @@
 																		<span class="input-group-btn">
 																			<button class="btn btn-sm btn-info no-radius" type="submit">
 																				<i class="ace-icon fa fa-share"></i>
-																				Guardad
+																				Guardar
 																			</button>
 																		</span>
 																	</div>
@@ -643,6 +647,41 @@
 	</div>
 </div>
 
+<div id="modal-form-estudios" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">Nuevo Teologia</h4>
+			</div>
+
+			<div class="modal-body">
+				<form action="<?= URL_BASE ?>sacerdote/guardarestudio" enctype="multipart/form-data" method="POST">
+					<input type="hidden" name="id_sacerdote" value="<?= $_GET['id'] ?>"/>					
+					<div class="form-group">
+						<label for="Especializacion">Estudio Teologia:</label>
+						<input type="text" class="form-control" name="estudioTeologia" id="estudioTeologia" required>
+					</div>
+					<div class="form-group">
+						<label for="nombre">Estudio Filosofia:</label>
+						<input type="text" class="form-control" name="estudioFilosofia" id="Especializacion" required>
+					</div>
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm" data-dismiss="modal">
+					<i class="ace-icon fa fa-times"></i>
+					Cancelar
+				</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div id="modal-form-grupo" class="modal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -657,12 +696,12 @@
 					<div class="form-group">
 						<label for="parroquia">Nombre Parroquia:</label>
 							<?php $parroquias = ParroquiaController::ListarParroquia(); ?>
-						<select  class="chosen-select form-control" id="form-field-select-3" data-placeholder="Parroquia a buscar..."name="parroquia" required>
+						<select  class="chosen-select form-control" id="form-field-select-3" data-placeholder="Parroquia a buscar..."name="parroquia">
 							
 							<option value="">  </option>
 								<?php
 								while ($sac = $parroquias->fetch_object()) {
-									echo '<option value="' . $sac->nombre . '">' . $sac->nombre . '</option>';
+									echo '<option value="' . $sac->id_parroquia . '">' . $sac->nombre . '</option>';
 								}
 								?>
   
@@ -671,7 +710,7 @@
 					</div>
 					<div class="form-group">
 						<label for="cargo">Parroquia Externa :</label>
-						<input type="text" class="form-control" name="exte" id="cargo" required>
+						<input type="text" class="form-control" name="exte" id="cargo">
 					</div>					
 					<div class="form-group">
 						<label for="cargo">Cargo :</label>
@@ -702,15 +741,22 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="blue bigger">Datos Ministeriales
+				<h4 class="blue bigger">Editar Datos Ministeriales 
 
 					<div class="modal-body">
-						<form action="<?= URL_BASE ?>sacerdote/guardardatosm" enctype="multipart/form-data" method="POST">
+						<?php
+						
+						$datosMin = SacerdoteController::MostrarDatosMinisteriales();
+						
+						if ($datosMin->num_rows == 0){
+							$metodo = "guardardatosm";
+						}else{
+							$metodo = "editardatos";
+						} ?>
+						<form action="<?= URL_BASE ?>sacerdote/<?=$metodo?>" enctype="multipart/form-data" method="POST">
 							<input type="hidden" name="id_sacerdote" value="<?= $_GET['id'] ?>" />
-							<?php
-							$datosMin = SacerdoteController::MostrarDatosMinisteriales();
-							
-							
+							<?php				
+														
 							if($datosMin->num_rows == 0){ ?>
 								<div class="form-group">
 									<label for="lugarOrdenacion">Lugar de Ordenacion:</label>

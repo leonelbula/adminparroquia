@@ -520,7 +520,7 @@
 
 																			<td><?= $rowH->hasta ?></td>
 																			<td>
-																				<?= $rowH->id_sacerdote ?>
+																				<?= $rowH->nombres ?>
 																			</td>
 																			<td><?= $rowH->cargo ?></td>
 																																						

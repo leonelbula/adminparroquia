@@ -19,9 +19,9 @@
 					<div class="organigrama">
 						<ul>
 							<li>
-								<a href="#">Mons. Ramon Alberto Rolun Guepsa
+								<a href="#">Mons. Ramon Alberto Rolón Guepsa
 									<br>
-									<img height="120" class="thumbnail inline no-margin-bottom" src="<?=URL_BASE?>imagenes/oficios/default.jpg" />
+									<img height="120" class="thumbnail inline no-margin-bottom" src="<?=URL_BASE?>imagenes/oficios/ramon.jpg" />
 									<br>
 									 Obispo
 								</a>
